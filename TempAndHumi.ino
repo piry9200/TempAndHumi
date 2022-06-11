@@ -8,12 +8,16 @@ static WiFiUDP wifiUdp;
 static const char *kRemoteIpadr = "***.***.***.**"; //送信先のIPアドレス
 static const int kRmoteUdpPort = 9000; //送信先のポート
 
+
 static const int sensorPin = 32;
 DHTesp dht;
 
 static void WiFi_setup()
 {
   static const int kLocalPort = 7000;  //自身のポート
+  const IPAddress ip(192,168,1,201);//espp32のIPアドレスを固定
+  const IPAddress subnet(255,255,255,0);
+  WiFI.config(ip,ip,subnet); //espp32のIPアドレスを固定
 
   WiFi.begin(ssid, pass);
   while( WiFi.status() != WL_CONNECTED) {
