@@ -40,22 +40,19 @@ void setup() {
 
 void loop() 
 {
-  if (wifiUdp.parsePacket()) { //パケットを受信したら実行する
-
-    TempAndHumidity newValues = dht.getTempAndHumidity();
-    if(dht.getStatus() != 0){
-    Serial.println("DHT11 error status:"+String(dht.getStatusString()));
-    }
-    float temp = newValues.temperature;
-    float hemi = newValues.humidity;
-
-    wifiUdp.beginPacket(kRemoteIpadr, kRemoteUdpPort);
-    wifiUdp.write(temp);
-    wifiUdp.write(hemi);
-    wifiUdp.endPacket();  
-
-    delay(3000);
+  TempAndHumidity newValues = dht.getTempAndHumidity();
+  if(dht.getStatus() != 0){
+  Serial.println("DHT11 error status:"+String(dht.getStatusString()));
   }
+  float temp = newValues.temperature;
+  float hemi = newValues.humidity;
+
+  wifiUdp.beginPacket(kRemoteIpadr, kRemoteUdpPort);
+  wifiUdp.write(temp);
+  wifiUdp.write(hemi);
+  wifiUdp.endPacket();  
+
+  delay(3000); //3秒ごとに温度湿度のデータを発信し続ける
 
 }
 
